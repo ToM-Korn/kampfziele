@@ -1,4 +1,9 @@
-Demo at https://www.tristanpendergrass.com/battle-objectives.
+Demo at http://kampfziele.krickl.eu
+
+# Origin
+The Original Software has been Forked from Tristan Pendergrass
+1000 Thanks to him :) 
+https://github.com/tristanpendergrass/battle-objectives
 
 # Development
 
@@ -15,16 +20,5 @@ $ npm run build
 
 # Todos
 
-- [x] Host on github pages
-- [x] Show card instead of number
-- [x] Show two cards per player
-- [x] Make card look nicer
-- [x] Hide results until clicked
-- [x] Make pretty
-- [x] Add github mark to page
-- [x] Favicon
-- [x] Add generate a seed button
-- [x] Add link to Satire's original BGG post
-- [x] Add original battle goals to pool
-- [x] Add option for only original, only satire, or both
-- [ ] Get seed from query string
+- [] Translate Satire Cards to German and add them 
+- [] Translate Gloomhaven Cards to German and add them

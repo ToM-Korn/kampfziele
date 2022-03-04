@@ -24,6 +24,9 @@ type SeedInput
 
 type Set
     = OriginalSet
+    | SatireSet
+    | CombinedSet
+
 
 type alias Model =
     { seedInput : SeedInput
@@ -38,7 +41,7 @@ type alias Model =
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( { seedInput = Empty
-      , setSelection = OriginalSet
+      , setSelection = CombinedSet
       , showPlayer1Cards = False
       , showPlayer2Cards = False
       , showPlayer3Cards = False
@@ -143,7 +146,7 @@ renderPlayer handleClick showCards first second index =
                 ""
             )
         ]
-        [ div [ class "player-title" ] [ text ("Spieler " ++ String.fromInt index) ]
+        [ div [ class "player-title" ] [ text ("Player " ++ String.fromInt index) ]
         , button [ class "toggle", onClick handleClick ]
             [ text
                 (if showCards then
@@ -166,7 +169,13 @@ renderPlayers model seedValue =
         ( min, max ) =
             case model.setSelection of
                 OriginalSet ->
-                    ( 1, 32 )
+                    ( 55, 79 )
+
+                SatireSet ->
+                    ( 1, 54 )
+
+                CombinedSet ->
+                    ( 1, 78 )
 
         numbers : List Int
         numbers =
@@ -185,7 +194,7 @@ renderPlayers model seedValue =
             ]
 
         _ ->
-            [ div [] [ text "Etwas ist schief gegangen." ] ]
+            [ div [] [ text "Something went wrong." ] ]
 
 
 renderPlayersContainer : Model -> Html Msg
@@ -212,10 +221,10 @@ renderSeedInput model =
     in
     div [ class "seed-input" ]
         [ div []
-            [ label [ for "seed-input" ] [ text "Seed Eingabe" ]
-            , input [ id "seed-input", onInput HandleSeedInput, placeholder "Seed eingeben", value seedInputValue ] [ text "" ]
+            [ label [ for "seed-input" ] [ text "Seed Input" ]
+            , input [ id "seed-input", onInput HandleSeedInput, placeholder "Enter seed", value seedInputValue ] [ text "" ]
             ]
-        , div [] [ button [ onClick FillRandomSeed ] [ text "Zufälligen Seed erzeugen" ] ]
+        , div [] [ button [ onClick FillRandomSeed ] [ text "Generate Random Seed" ] ]
         ]
 
 
@@ -246,9 +255,12 @@ renderSetSelection model =
                 ]
     in
     div [ class "set-selection" ]
-        [ p [] [ text "Benutzte Karten" ]
+        [ p [] [ text "Cards Used" ]
         , div [ class "radio-button-group" ]
-            [ radioButton "option-original" "Original" OriginalSet ]
+            [ radioButton "option-original" "Original Only" OriginalSet
+            , radioButton "option-satire" "Satire Only" SatireSet
+            , radioButton "option-combined" "Combined" CombinedSet
+            ]
         ]
 
 
@@ -257,7 +269,10 @@ renderTopSection =
     div []
         [ h1 [] [ text "Pranken des Löwen Kampfziel Generator" ]
         , p [ class "summary" ]
-            [ span [] [ text "Eine Webapp die einer Gruppe hilft die Kampfziele für Gloomhaven Pranken des Löwen zu koordinieren." ]]
+            [ span [] [ text "Eine Webapp die einer Gruppe hilft die Kampfziele für Gloomhaven Pranken des Löwen zu koordinieren." ]
+                        , a [ href "https://boardgamegeek.com/thread/2184131/satires-extended-battle-goals" ] [ text "Satire's Extended Battle Goals" ]
+            , span [] [ text " for the board game Gloomhaven." ]
+]
         , p [] [ text "Wie es geht:" ]
         , ol []
             [ li [] [ span [ class "emphasize" ] [ text "Entscheide" ], span [] [ text " dich mit deiner Gruppe für einen guten Seedwert (z.B. 'DieBartDie42') und welcher Spieler welche Nummer ist." ] ]
@@ -265,6 +280,7 @@ renderTopSection =
             , li [] [ span [] [ text "(optional) " ], span [ class "emphasize" ] [ text "Teile" ], span [] [ text " den Seedwert mit deinen Mitspielern. Sie können Ihn eingeben um das gleiche Ergebnis zu erhalten." ] ]
             ]
         ]
+
 
 
 view : Model -> Html Msg
